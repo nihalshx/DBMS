@@ -1,0 +1,122 @@
+-------Mongo DB---------
+
+*it is a non traditional database(No SQL)
+*it uses JSON langauge format to create data
+*it is a open source software
+.
+.
+.	*flexiblity(schema less DB)
+	*Scalability
+	*Perfomance
+	
+	
+compared to MySQL
+ 
+ table=collection
+ record=Docummnet
+ Atribute=Key-value pair
+ 
+ 
+ Eg:
+  roll	name	age	addrewss
+  1	abx	20	dsds
+  .	.	.	.	---->Relational data model
+ 
+ .	.	.	.	
+ 
+ 
+ 
+ {
+ 	rollno:1,
+ 	name:"abc",	------------>non traditional data model
+ 	age:20,
+ 	address:"india"
+ }
+ 
+ 
+ 
+ mongo commands
+ 
+*show--to show dbs
+*use-- to choose DB
+*db--used to see current DB
+*db.createCollection("<name>")--creating a collection/table(in sql)
+*insert('insertOne' used in the latest versions )-- used to insert documents to collection
+ 	Eg:db.student.insertOne({rollno:1,Name:"Rejah",age:20})
+ 	Eg:db.student.insertOne({rollno:3,Name:"jimbru",age:18,phone:["9207987642","8089394051"]})  #multivalued attribute
+ 	Eg:db.student.insertOne({rollno:3,Name:"jimbru",age:18,phone:["9207987642","8089394051"]})  #composite attribute
+ 	Eg:db.student.insertOne({rollno:5,Name:"Nihal",project:[{pid:110,projname:"X"},{pid:162,projname:"w"}]})    #complex or multivalued attribute
+
+
+
+*find()--same purpose as select
+ 	Eg:db.student.find()
+ 	Eg:db.student.find({rollno:2})
+ 	Eg:db.student.find({rollno:2})
+ 	Eg:db.student.find({$and:[{rollno:1,age:20}]})
+ 	Eg:db.student.find({},{rollno:1,Name:1}) #here the empty{} is for selection parmeter and the other one is for projection parameter 
+ 	
+ 
+ ----Structuerd Queries----											
+ 
+ *updateOne()--to update one value(use many to update many values)
+ 	Eg:db.student.updateOne({rollno:1},{$set:{age:23}})   #$set is used to set the new value
+ 	Eg:db.student.updateOne({name:{$exists:true}},{$rename:{name:"Name"}})
+ 	Eg:db.student.updateOne({rollno:1},{$unset:{phone:""}})
+
+ 	
+ ----delete keys---
+ 
+ *deleteOne()--used to delete keys
+ 	Eg:db.student.deleteOne({rollno:1})
+
+---ORDER BY usoing find----
+
+sorting--db.student.find().sort({name:1}) ##1=asc,-1=desc
+counting--db.student.find().count()
+show with limit--db.student.find().limit(2) $ show first 2 key documents
+
+---CONSTRAINTS----
+
+----Adding documents to an array in collections----
+
+*use PUSH() operator
+Eg:
+	db.order.updateOne({id:1},{push:{colors:"blue"}})
+	
+	
+----Aggregate functions in MongoDB----
+
+PIPELINE OF OPERTATIONS
+
+*here the output of a previous operation will be ysed for next operations
+
+$match
+$project
+4filter
+$group
+$sort
+$limit
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+*
