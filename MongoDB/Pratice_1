@@ -1,0 +1,98 @@
+MongoDB Lab: Product Database Practice
+======================================
+
+Database: shopDB
+Collection: products
+
+--------------------------------------
+Q1. Find all products in the category "Mobile"
+--------------------------------------
+Query:
+db.products.find({ category: "Mobile" });
+
+Answer:
+Returns all documents where the category field is "Mobile".
+
+--------------------------------------
+Q2. Find products with price greater than ₹60,000
+--------------------------------------
+Query:
+db.products.find({ price: { $gt: 60000 } });
+
+Answer:
+Returns all products where price is greater than 60000.
+
+--------------------------------------
+Q3. Find products with rating greater than or equal to 4.5
+--------------------------------------
+Query:
+db.products.find({ ratings: { $gte: 4.5 } });
+
+Answer:
+Returns products with a ratings value of 4.5 or more.
+
+--------------------------------------
+Q4. Find all products of brand "Apple"
+--------------------------------------
+Query:
+db.products.find({ brand: "Apple" });
+
+Answer:
+Fetches products where the brand is "Apple".
+
+--------------------------------------
+Q5. Find all products available in "Black" color
+--------------------------------------
+Query:
+db.products.find({ colors: "Black" });
+
+Answer:
+Returns products where the array colors contains "Black".
+
+--------------------------------------
+Q6. Sort products by price in descending order
+--------------------------------------
+Query:
+db.products.find().sort({ price: -1 });
+
+Answer:
+Lists all products sorted from highest to lowest price.
+
+--------------------------------------
+Q7. Update the stock of "MacBook Pro" to 10
+--------------------------------------
+Query:
+db.products.updateOne(
+  { name: "MacBook Pro" },
+  { $set: { stock: 10 } }
+);
+
+Answer:
+Updates the stock field of the "MacBook Pro" product to 10.
+
+--------------------------------------
+Q8. Delete the product with product_id "P1006"
+--------------------------------------
+Query:
+db.products.deleteOne({ product_id: "P1006" });
+
+Answer:
+Deletes the product document where product_id is "P1006".
+
+--------------------------------------
+Q9. Count the number of products in "Laptop" category
+--------------------------------------
+Query:
+db.products.countDocuments({ category: "Laptop" });
+
+Answer:
+Returns the number of documents where the category is "Laptop".
+
+--------------------------------------
+Q10. Find all products that are out of stock
+--------------------------------------
+Query:
+db.products.find({ stock: 0 });
+
+Answer:
+Lists products where stock is 0, meaning out of stock.
