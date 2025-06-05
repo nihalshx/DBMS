@@ -1,0 +1,84 @@
+ 1)non parametrised procedure
+ DELIMETER // create procedure listBooksS() begin select * from books; end // DELIMITER;
+ 
+CALL listBooksS();//
++-------+-----------------+-----------------+-------+-----------+--------------+-------------+
+| accno | title           | author          | price | type      | availability | publisherid |
++-------+-----------------+-----------------+-------+-----------+--------------+-------------+
+|     6 | learning sql    | alan beaulieu   | 45.99 | lending   | yes          |           3 |
+|     7 | data structures | mark weiss      | 55.50 | reference | yes          |           2 |
+|     8 | dbms concepts   | silberschatz    | 65.25 | lending   | yes          |           1 |
+|     9 | python basics   | eric matthes    | 42.75 | lending   | yes          |           5 |
+|    10 | java complete   | herbert schildt | 50.99 | lending   | yes          |           4 |
++-------+-----------------+-----------------+-------+-----------+--------------+-------------+
+
+2)parametrised procedure (IN)
+DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE listBookwithAccno(IN inputAccno INT)
+    -> BEGIN
+    ->     SELECT * FROM books WHERE accno = inputAccno;
+    -> END //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> CALL listBookwithAccno(6);
++-------+--------------+---------------+-------+---------+--------------+-------------+
+| accno | title        | author        | price | type    | availability | publisherid |
++-------+--------------+---------------+-------+---------+--------------+-------------+
+|     6 | learning sql | alan beaulieu | 45.99 | lending | yes          |           3 |
++-------+--------------+---------------+-------+---------+--------------+-------------+
+
+3) )parametrised procedure (OUT)
+DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE printBooks(OUT bname VARCHAR(100))
+    -> BEGIN
+    ->     SELECT title INTO bname FROM books WHERE accno = 1;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> CALL printBook(@bname);
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> SELECT @bname AS bookname;
++----------+
+| bookname |
++----------+
+
+
+4)IN and OUT
+
+
+5)INOUT
+DELIMITER // create procedure listbook(INOUT val varchar(100)) begin select * from books into val where accno=val; end // DELIMITER;
+
+set @val=1;
+CALL listbook(@val)
+select @val
+
+stored functions
+----------------
+
+DELIMITER //
+create function funname(p1 int, p2 varchar(100)) RETURNS datatype {NO SQL | READS SQL DATA | DETERMINISTIC}
+BEGIN
+DECLARE var_name datatype
+SQL STATEMENTS
+RETURN var_name
+end //
+DELIMETER ;
+
+
+
+
+create function listbook()
+RETURNS varchar(100) READS SQL DATA
+BEGIN
+DECLARE BANME varchar(100);
+select title into bname where accno=1;
+RETURN banme
+end//
