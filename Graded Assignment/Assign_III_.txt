@@ -1,0 +1,40 @@
+
+
+
+1. Create a MySQL view named "IssuedBooksDetails" that combines information about issued books, including the book title, member name, and issue date. Include columns for book title, member name, and issue date.
+
+create view IssueBooksDetails as SELECT books.title, m.name,issues.issuedate from books join issues on  books.accno = issues.accno join members m on m.memberid = issues.memberid;
+
+2. Create a stored function in MySQL that calculates and returns the total fine amount for a given member based on their memberid.
+
+DELIMITER //
+CREATE FUNCTION totalfine(f int) RETURNS int DETERMINISTIC READS SQL DATA  BEGIN DECLARE f1 int; SELECT sum(fine) into f1 ; RETURN f1; END//
+
+3. Create a MySQL stored procedure named "AddIssue" to facilitate issuing a book to a member. The procedure should take input parameters for the accession number of the book and the member ID of the member. It should insert to the Issues table with the new issue record, including the current date as the issue date. Use the built-in function CURDATE() to get the current date.
+
+DELIMITER //
+CREATE PROCEDURE AddIssue(IN memberid INT, IN accno INT) BEGIN INSERT INTO issues(memberid, accno, issuedate, duedate) VALUES (memberid, accno, CURDATE(), CURDATE() + INTERVAL 30 DAY); END//
+
+4. Create a stored procedure 'IsAvailable' which takes an accession number of a book as input and outputs a boolean value (TRUE/FALSE) on the availability of that book.
+
+
+CREATE PROCEDURE IsAvailable(IN in_accno int, OUT is_available BOOLEAN) 
+BEGIN
+DECLaRE availability_status VARCHAR(3); 
+SELECT availability into availability_status
+FROM books WHERE accno = in_accno; 
+IF availability_status IS NULL THEN SET is_available = FALSE;
+ELSE SET is_available = (availability_status = 'yes'); 
+END IF; 
+END//
+
+5. Create a MySQL trigger named 'UpdateAvailabilityToNo' to update the availability of a book to "no" once that books is issued to some member.
+
+CREATE TRIGGER UpdateAvailabilityToNo AFTER INSERT ON issues FOR EACH ROW BEGIN UPDATE books SET availability = 'no' WHERE accno = NEW.accno; END//
+
+6. Create a MySQL trigger named 'UpdateAvailabilityToYes' to update the availability of a book to "yes" once that books is returned to library.
+
+CREATE TRIGGER UpdateAvailabilityToYes AFTER INSERT ON returns FOR EACH ROW BEGIN UPDATE books SET availability = 'yes' WHERE accno = NEW.accno; END//
+
+
+
